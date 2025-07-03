@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php'; // Kết nối CSDL
+require 'db.php'; // Kết nối với cơ sở dữ liệu tại db.php
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
