@@ -1,28 +1,87 @@
-# project-ct428
-Chủ đề 3: Hệ thống Quản lý Công việc (To-Do List nâng cao)
-- Mô tả: Ứng dụng giúp người dùng quản lý các công việc của họ.
-- Các thực thể (MySQL): NguoiDung (ID, Tên đăng nhập, Mật khẩu), CongViec (ID,
-Tiêu đề, Mô tả, Ngày hết hạn, Trạng thái, ID_NguoiDung).
-- Chức năng chính:
-+ Đăng ký, Đăng nhập, Đăng xuất cho người dùng.
-+ Mỗi người dùng chỉ xem và quản lý công việc của mình.
-+ Thêm, Sửa, Xóa, Xem danh sách công việc.
-+ Đánh dấu công việc là hoàn thành/chưa hoàn thành.
+# 📋 Hệ thống Quản lý Công việc (To-Do List nâng cao)
+
+Đây là một ứng dụng web giúp người dùng quản lý các công việc cá nhân của mình. Mỗi người dùng có thể đăng ký, đăng nhập và quản lý danh sách công việc riêng.
+
+---
+
+## 🚀 Tính năng chính
+
+- [x] Đăng ký người dùng mới
+- [x] Đăng nhập / Đăng xuất
+- [x] Thêm / Sửa / Xóa công việc
+- [x] Hiển thị danh sách công việc của từng người dùng
+- [x] Đánh dấu công việc là **hoàn thành** hoặc **chưa hoàn thành**
+- [x] Bảo vệ truy cập bằng **session**
+
+---
+
+## 🛠️ Công nghệ sử dụng
+
+| Thành phần       | Công nghệ        |
+|------------------|------------------|
+| Ngôn ngữ backend | PHP thuần        |
+| Cơ sở dữ liệu     | MySQL            |
+| Giao diện frontend| HTML + CSS (thuần) |
+| Server local     | XAMPP / Laragon  |
+
+---
+
+## 📁 Cấu trúc thư mục
+todo-app/
+├── css/
+│ └── style.css
+├── db.php
+├── session.php
+├── database.sql
+├── register.php
+├── login.php
+├── logout.php
+├── index.php
+├── add_task.php
+├── edit_task.php
+├── delete_task.php
+└── complete_task.php
 
 
-Công nghệ Backend: Sử dụng một trong hai công nghệ sau:
-- PHP: Có thể sử dụng PHP thuần hoặc một framework PHP (ví dụ: Laravel,
-CodeIgniter, Slim Framework - khuyến khích cho dự án đơn giản).
-- Cơ sở dữ liệu: Bắt buộc sử dụng MySQL để lưu trữ và quản lý dữ liệu.
-- Giao diện người dùng (Frontend):
-+ Yêu cầu giao diện đơn giản, không cần quá phức tạp về UI/UX. Mục tiêu chính là
-hiển thị và tương tác với dữ liệu từ backend. Tuy nhiên giao diện cũng cần hợp lý,
-dễ nhìn.
-+ Có thể sử dụng HTML, CSS, JavaScript thuần hoặc một framework/thư viện
-frontend nhẹ (ví dụ: jQuery, Vue.js, React.js ở mức độ cơ bản) để tương tác với
-API backend.
-+ Trọng tâm là Backend, không đánh giá quá nhiều về Frontend phức tạp.
-- Chức năng cơ bản: Ứng dụng phải thực hiện được ít nhất các thao tác CRUD (Create,
-Read, Update, Delete) dữ liệu từ cơ sở dữ liệu thông qua backend API.
-- Quản lý phiên (Session Management): Tối thiểu cần có chức năng đăng nhập/đăng xuất
-đơn giản.
+---
+
+## ⚙️ Hướng dẫn cài đặt & chạy ứng dụng
+
+### Bước 1: Cài đặt môi trường
+- Cài đặt **XAMPP**
+- Đảm bảo **Apache** và **MySQL** đang chạy
+
+### Bước 2: Tạo cơ sở dữ liệu
+- Mở `phpMyAdmin` tại `http://localhost/phpmyadmin`
+- Tạo database mới tên: `todo_app`
+- Import file `database.sql` đi kèm để tạo bảng
+
+### Bước 3: Cấu hình kết nối database
+- Mở file `db.php` và chỉnh thông tin kết nối MySQL nếu cần:
+```php
+$mysqli = new mysqli("localhost", "root", "", "todo_app");
+
+Bước 4: Đặt source code vào thư mục server
+Ví dụ: C:\xampp\htdocs\todo-app
+
+Bước 5: Chạy ứng dụng
+Truy cập trình duyệt:
+👉 http://localhost/todo-app/register.php – Đăng ký tài khoản
+👉 http://localhost/todo-app/login.php – Đăng nhập
+👉 http://localhost/todo-app/index.php – Quản lý công việc
+
+👨‍💻 Nhóm thực hiện
+Tô Anh Khải: Quản lý người dùng (đăng ký, đăng nhập, session)
+
+Võ Phúc Khang: Xử lý công việc (CRUD)
+
+Đỗ Nhật Anh : Trạng thái & bảo mật	
+
+✅ Ghi chú
+Mật khẩu người dùng được mã hóa bằng password_hash().
+
+Ứng dụng không sử dụng framework để dễ học và triển khai cho sinh viên. (?)
+
+Giao diện đơn giản, dễ mở rộng bằng Bootstrap hoặc jQuery nếu cần.
+
+
