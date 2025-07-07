@@ -26,10 +26,12 @@
 
 ---
 
-## 📁 Cấu trúc thư mục
+### 📁 Cấu trúc thư mục
+
+```bash
 todo-app/
 ├── css/
-│ └── style.css
+│   └── style.css
 ├── db.php
 ├── session.php
 ├── database.sql
@@ -41,9 +43,7 @@ todo-app/
 ├── edit_task.php
 ├── delete_task.php
 └── complete_task.php
-
-
----
+```
 
 ## ⚙️ Hướng dẫn cài đặt & chạy ứng dụng
 
