@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost"; // Tên máy chủ MySQL
-$username = "root"; // Tên người dùng MySQL (thường là root cho môi trường dev)
-$password = ""; // Mật khẩu MySQL (để trống nếu không có)
-$dbname = "todo-list"; // Tên cơ sở dữ liệu của bạn
+$servername = "localhost"; 
+$username = "root";
+$passwd = ""; 
+$dbname = "todo-list"; 
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);
