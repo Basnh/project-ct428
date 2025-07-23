@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $_SESSION['id'] = $row['id'];
         $_SESSION['username'] = $row['username'];
-        header("Location: index.php"); // Chuyển hướng đến trang quản lý công việc
+        header("Location: index.html"); // Chuyển hướng đến trang quản lý công việc
         exit();
     } else {
         $message = "Tên đăng nhập hoặc mật khẩu không đúng.";

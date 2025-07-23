@@ -2,13 +2,13 @@
 session_start();
 require 'db.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;
 }
 
-$task_id = intval($_GET['id']);
-$user_id = $_SESSION['user_id'];
+$task_id = intval($_POST['id']);
+$user_id = $_SESSION['id'];
 
 // Kiểm tra quyền sở hữu
 $stmt = $conn->prepare("SELECT * FROM CongViec WHERE ID = ? AND ID_NguoiDung = ?");
@@ -29,11 +29,9 @@ $update = $conn->prepare("UPDATE CongViec SET TrangThai = ? WHERE ID = ? AND ID_
 $update->bind_param("iii", $new_status, $task_id, $user_id);
 $update->execute();
 
-$update -> close();
-$conn -> close();
+$update->close();
+$conn->close();
 
-header('Location: index.php');
+header('Location: index.html');
 exit;
-
-
 ?>
