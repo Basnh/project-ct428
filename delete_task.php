@@ -4,7 +4,7 @@
 session_start();
 require 'db.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;
 }
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $task_id = intval($_POST['id']); 
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['id'];
 
     // Kiểm tra quyền sở hữu
     // ...Không lấy ID_NguoiDung từ client, chỉ lấy từ session...
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute();
     $stmt->close();
 
-    header('Location: index.php');
+    header('Location: index.html');
     exit;
 }
 

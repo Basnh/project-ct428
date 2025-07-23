@@ -2,7 +2,7 @@
 session_start(); // Nếu có login thì bật session
 require 'db.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;
 }
@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $title = trim($_POST['task_title']);
     $description = trim($_POST['task_description']);
     $deadline = $_POST['task_deadline'] ?? null;
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['id'];
     
     if (!empty($title)) {
         // Nếu deadline trống, set null
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         if ($stmt->execute()) {
             $stmt->close();
-            header("Location: index.php");
+            header("Location: index.html");
             exit();
         } else {
             echo "Lỗi khi thêm công việc: " . $stmt->error;

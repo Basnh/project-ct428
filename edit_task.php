@@ -3,13 +3,13 @@
 session_start();
 require 'db.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;
 }
 
 $task_id = intval($_GET['id']);
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['id'];
 
 // Kiểm tra quyền sở hữu
 $stmt = $conn->prepare("SELECT * FROM CongViec WHERE ID = ? AND ID_NguoiDung = ?");
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: index.php");
+    header("Location: index.html");
     exit;
 }
 
@@ -67,7 +67,7 @@ $conn->close();
             
             <br><br>
             <button class="save-btn" type="submit">Lưu</button>
-            <a class="cancel-btn" href="index.php">Huỷ</a>
+            <a class="cancel-btn" href="index.html">Huỷ</a>
         </form>
     </div>
 </body>
