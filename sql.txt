@@ -10,7 +10,7 @@ CREATE TABLE CongViec (
     MoTa TEXT,
     NgayHetHan DATE,
     TrangThai BOOLEAN DEFAULT FALSE,
-    ID_NguoiDUng INT,
+    ID_NguoiDung INT,
     FOREIGN KEY (ID_NguoiDung) REFERENCES NguoiDung(ID) ON DELETE CASCADE
 );
 
