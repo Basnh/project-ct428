@@ -22,3 +22,7 @@ ADD COLUMN SoDienThoai VARCHAR(15);
 
 -- Tạo index cho email để tìm kiếm nhanh hơn
 CREATE INDEX idx_email ON NguoiDung(Email);
+
+-- Thêm cột Priority vào bảng CongViec
+ALTER TABLE CongViec 
+ADD COLUMN DoUuTien ENUM('thap', 'trung_binh', 'cao') DEFAULT 'trung_binh';
