@@ -51,116 +51,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký - Hệ thống Quản lý Công việc</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .login-form {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .login-header h1 {
-            color: #333;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .login-header p {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .success-message {
-            background: rgba(40, 167, 69, 0.1);
-            color: #28a745;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(40, 167, 69, 0.3);
-        }
-        
-        .error-message {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(220, 53, 69, 0.3);
-        }
-        
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .register-link a {
-            color: #667eea;
-            text-decoration: none;
-        }
-        
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/register.css">
+    
 </head>
 <body>
     <div class="login-container">
@@ -187,6 +79,16 @@ $conn->close();
                     <label for="username">Tên đăng nhập:</label>
                     <input type="text" id="username" name="username" required minlength="3" maxlength="50">
                 </div>
+
+                <div class="form-group">
+                    <label for="full_name">Họ và tên:</label>
+                    <input type="text" id="full_name" name="full_name" maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number">Số điện thoại:</label>
+                    <input type="tel" id="phone_number" name="phone_number" required length="10">
+                </div>
                 
                 <div class="form-group">
                     <label for="password">Mật khẩu:</label>
@@ -197,6 +99,8 @@ $conn->close();
                     <label for="confirm_password">Nhập lại mật khẩu:</label>
                     <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
                 </div>
+
+                
 
                 <button type="submit" class="login-btn">Đăng ký</button>
             </form>
