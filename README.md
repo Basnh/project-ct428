@@ -75,7 +75,7 @@ Tô Anh Khải: Quản lý người dùng (đăng ký, đăng nhập, session)
 
 Võ Phúc Khang: Xử lý công việc (CRUD)
 
-Đỗ Nhật Anh : Trạng thái & bảo mật	
+Đỗ Nhật Anh : Trạng thái & bảo mật, chỉnh sửa logic của project, 	
 
 ✅ Ghi chú
 Mật khẩu người dùng được mã hóa bằng password_hash().

@@ -1,5 +1,5 @@
 <?php
-session_start(); // Nếu có login thì bật session
+session_start();
 require 'db.php';
 
 if (!isset($_SESSION['id'])) {
@@ -7,11 +7,11 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION['id'];
     $title = trim($_POST['task_title']);
     $description = trim($_POST['task_description']);
-    $deadline = $_POST['task_deadline'] ?? null;
-    $user_id = $_SESSION['id'];
+    $deadline = $_POST['task_deadline'];
     $priority = $_POST['task_priority']; // Thêm priority
     
     if (empty($title)) {

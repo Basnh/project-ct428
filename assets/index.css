@@ -1,5 +1,4 @@
-
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -164,6 +163,15 @@
             box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
         }
 
+        .form-control select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
         .btn-primary {
             background: #1976d2;
             color: white;
@@ -281,26 +289,30 @@
             color: #155724;
         }
 
-        .priority-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
         .priority-high {
             background: #ffebee;
             color: #c62828;
+            border: 1px solid #ffcdd2;
         }
 
         .priority-medium {
-            background: #fff3e0;
-            color: #ef6c00;
+            background: #fff8e1;
+            color: #f57c00;
+            border: 1px solid #ffecb3;
         }
 
         .priority-low {
             background: #e8f5e8;
             color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
         }
 
         .progress-bar {
@@ -352,6 +364,26 @@
             margin-bottom: 10px;
         }
 
+        .status-select {
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .status-select:focus {
+            outline: 2px solid #1976d2;
+        }
+
+        .status-select option {
+            background: white;
+            color: #333;
+        }
+
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -365,5 +397,21 @@
             
             .main-content {
                 padding: 20px;
+            }
+        }
+
+        /* Animation cho form */
+        .form-group {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }

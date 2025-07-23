@@ -135,10 +135,10 @@ $conn->close();
             <div class="task-section">
                 <div class="task-header">
                     <div class="task-filters">
-                        <button class="filter-btn active">📝 Việc cần làm</button>
-                        <button class="filter-btn">🔄 Trạng thái</button>
+                        <button class="filter-btn active">📋 Tất cả</button>
+                        <button class="filter-btn">📝 Chưa bắt đầu</button>
+                        <button class="filter-btn">🔄 Đang thực hiện</button>
                         <button class="filter-btn">✅ Đã hoàn thành</button>
-                        <button class="filter-btn">📋 All</button>
                     </div>
                 </div>
 
@@ -159,8 +159,25 @@ $conn->close();
                             <?php while ($row = $result->fetch_assoc()): 
                                 $isOverdue = false;
                                 $priorityClass = 'priority-medium';
+                                $priorityText = 'Trung bình';
+                                
+                                // Xác định priority class và text
+                                switch($row['DoUuTien']) {
+                                    case 'cao':
+                                        $priorityClass = 'priority-high';
+                                        $priorityText = 'Cao';
+                                        break;
+                                    case 'thap':
+                                        $priorityClass = 'priority-low';
+                                        $priorityText = 'Thấp';
+                                        break;
+                                    default:
+                                        $priorityClass = 'priority-medium';
+                                        $priorityText = 'Trung bình';
+                                }
+                                
                                 $statusClass = $row['TrangThai'] ? 'status-completed' : 'status-not-started';
-                                $statusText = $row['TrangThai'] ? 'Completed' : 'Not started';
+                                $statusText = $row['TrangThai'] ? 'Đã hoàn thành' : 'Chưa bắt đầu';
                                 $progress = $row['TrangThai'] ? 100 : 0;
                                 
                                 if (!empty($row['NgayHetHan']) && $row['NgayHetHan'] != '0000-00-00') {
@@ -170,6 +187,7 @@ $conn->close();
                                     if ($deadline < $today && !$row['TrangThai']) {
                                         $isOverdue = true;
                                         $priorityClass = 'priority-high';
+                                        $priorityText = 'Khẩn cấp';
                                     }
                                 }
                             ?>
@@ -189,18 +207,35 @@ $conn->close();
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <span class="status-badge <?= $statusClass ?>"><?= $statusText ?></span>
+                                        <form method="POST" action="update_status.php" style="display: inline;">
+                                            <input type="hidden" name="id" value="<?= $row['ID'] ?>">
+                                            <select name="status" class="status-select" onchange="this.form.submit()">
+                                                <option value="chua_bat_dau" <?= ($row['TrangThaiChiTiet'] ?? 'chua_bat_dau') == 'chua_bat_dau' ? 'selected' : '' ?>>📝 Chưa bắt đầu</option>
+                                                <option value="dang_thuc_hien" <?= ($row['TrangThaiChiTiet'] ?? '') == 'dang_thuc_hien' ? 'selected' : '' ?>>🔄 Đang thực hiện</option>
+                                                <option value="da_hoan_thanh" <?= ($row['TrangThaiChiTiet'] ?? '') == 'da_hoan_thanh' || $row['TrangThai'] ? 'selected' : '' ?>>✅ Đã hoàn thành</option>
+                                            </select>
+                                        </form>
                                     </td>
                                     <td>
                                         <span class="priority-badge <?= $priorityClass ?>">
-                                            <?= $isOverdue ? 'Urgent' : 'Medium' ?>
+                                            <?php 
+                                                if ($isOverdue) {
+                                                    echo '🚨 Khẩn cấp';
+                                                } else {
+                                                    switch($row['DoUuTien']) {
+                                                        case 'cao': echo '🔴 Cao'; break;
+                                                        case 'thap': echo '🟢 Thấp'; break;
+                                                        default: echo '🟡 Trung bình';
+                                                    }
+                                                }
+                                            ?>
                                         </span>
                                     </td>
                                     <td>
                                         <?php if (!empty($row['NgayHetHan']) && $row['NgayHetHan'] != '0000-00-00'): ?>
-                                            <?= date("M j, Y", strtotime($row['NgayHetHan'])) ?>
+                                            <?= date("d/m/Y", strtotime($row['NgayHetHan'])) ?>
                                         <?php else: ?>
-                                            <span style="color: #6c757d;">No date</span>
+                                            <span style="color: #6c757d;">Không có</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -211,11 +246,11 @@ $conn->close();
                                     </td>
                                     <td>
                                         <div class="task-actions">
-                                            <a href="edit_task.php?id=<?= $row['ID'] ?>" class="btn-sm btn-edit">Edit</a>
+                                            <a href="edit_task.php?id=<?= $row['ID'] ?>" class="btn-sm btn-edit">Sửa</a>
                                             <form method="POST" action="delete_task.php" style="display: inline;" 
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa công việc này?');">
                                                 <input type="hidden" name="id" value="<?= $row['ID'] ?>">
-                                                <button type="submit" class="btn-sm btn-delete">Delete</button>
+                                                <button type="submit" class="btn-sm btn-delete">Xóa</button>
                                             </form>
                                         </div>
                                     </td>
@@ -234,22 +269,50 @@ $conn->close();
     </div>
 
     <script>
-        // Filter functionality
+        // Filter functionality với logic thực tế
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
+                // Xóa class active khỏi tất cả nút
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+                
+                // Lấy loại filter
+                const filterType = this.textContent.trim();
+                const tableRows = document.querySelectorAll('.task-table tbody tr');
+                
+                tableRows.forEach(row => {
+                    const statusBadge = row.querySelector('.status-badge');
+                    const statusText = statusBadge ? statusBadge.textContent.trim() : '';
+                    
+                    let showRow = true;
+                    
+                    switch(filterType) {
+                        case '📝 Chưa bắt đầu':
+                            showRow = statusText === 'Chưa bắt đầu';
+                            break;
+                        case '🔄 Đang thực hiện':
+                            showRow = statusText === 'Đang thực hiện'; // Cần thêm trạng thái này
+                            break;
+                        case '✅ Đã hoàn thành':
+                            showRow = statusText === 'Đã hoàn thành';
+                            break;
+                        case '📋 Tất cả':
+                            showRow = true;
+                            break;
+                    }
+                    
+                    row.style.display = showRow ? '' : 'none';
+                });
+                
+                // Cập nhật counter
+                updateTaskCounter();
             });
         });
 
-        // Checkbox handling
-        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const row = this.closest('tr');
-                row.style.opacity = '0.6';
-                this.closest('form').submit();
-            });
-        });
+        function updateTaskCounter() {
+            const visibleRows = document.querySelectorAll('.task-table tbody tr:not([style*="display: none"])');
+            console.log(`Hiển thị ${visibleRows.length} công việc`);
+        }
     </script>
 </body>
 </html>
