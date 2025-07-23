@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Đăng nhập thành công
                 $_SESSION['id'] = $user['ID'];
                 $_SESSION['username'] = $user['TenDangNhap'];
-                header('Location: index.html');
+                header('Location: index.php');
                 exit();
             } else {
                 $message = "Mật khẩu không đúng.";
