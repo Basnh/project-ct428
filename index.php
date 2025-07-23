@@ -36,17 +36,17 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List Manager</title>
+    <title>Quản lí việc cần làm</title>
     <link rel="stylesheet" href="assets/index.css">
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <h1>📋 Todo List Manager</h1>
+            <h1>📋 Quản lí việc cần làmr</h1>
             
             <div class="nav-section">
-                <div class="nav-title">Navigation</div>
+                <div class="nav-title">Thanh điều hướng</div>
                 <div class="nav-item">
                     <span class="icon">📝</span>
                     Action Items
@@ -54,12 +54,12 @@ $conn->close();
                 </div>
                 <div class="nav-item">
                     <span class="icon">📅</span>
-                    Today
+                    Hôm nay
                     <span class="count">0</span>
                 </div>
                 <div class="nav-item">
                     <span class="icon">⏰</span>
-                    Tomorrow
+                    Ngày mai
                     <span class="count">0</span>
                 </div>
                 <div class="nav-item">
@@ -74,25 +74,25 @@ $conn->close();
                 </div>
                 <div class="nav-item">
                     <span class="icon">⏱️</span>
-                    Timeline
+                    Mốc thời gian
                 </div>
                 <div class="nav-item">
                     <span class="icon">🔄</span>
-                    In Progress
+                    Trạng thái
                     <span class="count"><?= $stats['pending'] ?></span>
                 </div>
                 <div class="nav-item active">
                     <span class="icon">✅</span>
-                    Completed
+                    Đã hoàn thành
                     <span class="count"><?= $stats['completed'] ?></span>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Nội dung chính -->
         <div class="main-content">
             <div class="content-header">
-                <h1 class="content-title">Todo List</h1>
+                <h1 class="content-title">Danh sách cần làm</h1>
                 <div class="user-info">
                     <span class="welcome-text">Xin chào, <strong><?= htmlspecialchars($username) ?></strong>!</span>
                     <a href="logout.php" class="logout-btn">Đăng xuất</a>
@@ -107,14 +107,26 @@ $conn->close();
                         <label for="task_title">Tiêu đề công việc</label>
                         <input type="text" id="task_title" name="task_title" class="form-control" placeholder="Nhập tiêu đề công việc..." required>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="task_priority">Độ ưu tiên</label>
+                        <select id="task_priority" name="task_priority" class="form-control">
+                            <option value="thap">🟢 Thấp</option>
+                            <option value="trung_binh" selected>🟡 Trung bình</option>
+                            <option value="cao">🔴 Cao</option>
+                        </select>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="task_deadline">Hạn chót</label>
                         <input type="date" id="task_deadline" name="task_deadline" class="form-control" min="<?= date('Y-m-d') ?>">
                     </div>
+                    
                     <div class="form-group">
                         <label for="task_description">Mô tả</label>
                         <textarea id="task_description" name="task_description" class="form-control" rows="3" placeholder="Mô tả chi tiết công việc..."></textarea>
                     </div>
+                    
                     <button type="submit" class="btn-primary">Thêm công việc</button>
                 </form>
             </div>
@@ -123,9 +135,9 @@ $conn->close();
             <div class="task-section">
                 <div class="task-header">
                     <div class="task-filters">
-                        <button class="filter-btn active">📝 To Do</button>
-                        <button class="filter-btn">🔄 In Progress</button>
-                        <button class="filter-btn">✅ Completed</button>
+                        <button class="filter-btn active">📝 Việc cần làm</button>
+                        <button class="filter-btn">🔄 Trạng thái</button>
+                        <button class="filter-btn">✅ Đã hoàn thành</button>
                         <button class="filter-btn">📋 All</button>
                     </div>
                 </div>
