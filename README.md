@@ -71,11 +71,11 @@ Truy cập trình duyệt:
 👉 http://localhost/todo-app/index.php – Quản lý công việc
 
 👨‍💻 Nhóm thực hiện
-Tô Anh Khải: Quản lý người dùng (đăng ký, đăng nhập, session)
+Tô Anh Khải: Quản lý người dùng (đăng ký, đăng nhập, session).
 
-Võ Phúc Khang: Xử lý công việc (CRUD)
+Võ Phúc Khang: Xử lý công việc (CRUD).
 
-Đỗ Nhật Anh : Trạng thái & bảo mật, chỉnh sửa logic của project, 	
+Đỗ Nhật Anh : Trạng thái & bảo mật, chỉnh sửa logic của project, trạng thái công việc. 	
 
 ✅ Ghi chú
 Mật khẩu người dùng được mã hóa bằng password_hash().

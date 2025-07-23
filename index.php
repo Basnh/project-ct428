@@ -36,20 +36,20 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lí việc cần làm</title>
+    <title>Quản lý việc cần làm</title>
     <link rel="stylesheet" href="assets/index.css">
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <h1>📋 Quản lí việc cần làmr</h1>
+            <h1>📋 Quản lý việc cần làm</h1>
             
             <div class="nav-section">
                 <div class="nav-title">Thanh điều hướng</div>
                 <div class="nav-item">
                     <span class="icon">📝</span>
-                    Action Items
+                    Việc cần làm
                     <span class="count"><?= $stats['pending'] ?></span>
                 </div>
                 <div class="nav-item">
@@ -64,7 +64,7 @@ $conn->close();
                 </div>
                 <div class="nav-item">
                     <span class="icon">📊</span>
-                    Trong tuần này
+                    Tuần này
                     <span class="count"><?= $stats['pending'] ?></span>
                 </div>
                 <div class="nav-item">
@@ -74,12 +74,12 @@ $conn->close();
                 </div>
                 <div class="nav-item">
                     <span class="icon">⏱️</span>
-                    Mốc thời gian
+                    Timeline
                 </div>
                 <div class="nav-item">
                     <span class="icon">🔄</span>
-                    Trạng thái
-                    <span class="count"><?= $stats['pending'] ?></span>
+                    Đang thực hiện
+                    <span class="count">0</span>
                 </div>
                 <div class="nav-item active">
                     <span class="icon">✅</span>
@@ -89,10 +89,10 @@ $conn->close();
             </div>
         </div>
 
-        <!-- Nội dung chính -->
+        <!-- Main Content -->
         <div class="main-content">
             <div class="content-header">
-                <h1 class="content-title">Danh sách cần làm</h1>
+                <h1 class="content-title">Danh sách công việc</h1>
                 <div class="user-info">
                     <span class="welcome-text">Xin chào, <strong><?= htmlspecialchars($username) ?></strong>!</span>
                     <a href="logout.php" class="logout-btn">Đăng xuất</a>
@@ -135,10 +135,9 @@ $conn->close();
             <div class="task-section">
                 <div class="task-header">
                     <div class="task-filters">
-                        <button class="filter-btn active">📋 Tất cả</button>
-                        <button class="filter-btn">📝 Chưa bắt đầu</button>
-                        <button class="filter-btn">🔄 Đang thực hiện</button>
-                        <button class="filter-btn">✅ Đã hoàn thành</button>
+                        <button class="filter-btn active" data-filter="all">📋 Tất cả</button>
+                        <button class="filter-btn" data-filter="pending">📝 Chưa hoàn thành</button>
+                        <button class="filter-btn" data-filter="completed">✅ Đã hoàn thành</button>
                     </div>
                 </div>
 
@@ -147,39 +146,38 @@ $conn->close();
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Title</th>
-                                <th>Status</th>
-                                <th>Priority</th>
-                                <th>Due Date</th>
-                                <th>Progress</th>
-                                <th></th>
+                                <th>Tiêu đề</th>
+                                <th>Trạng thái</th>
+                                <th>Độ ưu tiên</th>
+                                <th>Hạn chót</th>
+                                <th>Tiến độ</th>
+                                <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php while ($row = $result->fetch_assoc()): 
                                 $isOverdue = false;
                                 $priorityClass = 'priority-medium';
-                                $priorityText = 'Trung bình';
+                                $priorityText = '🟡 Trung bình';
                                 
-                                // Xác định priority class và text
-                                switch($row['DoUuTien']) {
-                                    case 'cao':
-                                        $priorityClass = 'priority-high';
-                                        $priorityText = 'Cao';
-                                        break;
-                                    case 'thap':
-                                        $priorityClass = 'priority-low';
-                                        $priorityText = 'Thấp';
-                                        break;
-                                    default:
-                                        $priorityClass = 'priority-medium';
-                                        $priorityText = 'Trung bình';
+                                // Xác định priority
+                                if (isset($row['DoUuTien'])) {
+                                    switch($row['DoUuTien']) {
+                                        case 'cao':
+                                            $priorityClass = 'priority-high';
+                                            $priorityText = '🔴 Cao';
+                                            break;
+                                        case 'thap':
+                                            $priorityClass = 'priority-low';
+                                            $priorityText = '🟢 Thấp';
+                                            break;
+                                        default:
+                                            $priorityClass = 'priority-medium';
+                                            $priorityText = '🟡 Trung bình';
+                                    }
                                 }
                                 
-                                $statusClass = $row['TrangThai'] ? 'status-completed' : 'status-not-started';
-                                $statusText = $row['TrangThai'] ? 'Đã hoàn thành' : 'Chưa bắt đầu';
-                                $progress = $row['TrangThai'] ? 100 : 0;
-                                
+                                // Kiểm tra quá hạn
                                 if (!empty($row['NgayHetHan']) && $row['NgayHetHan'] != '0000-00-00') {
                                     $today = date('Y-m-d');
                                     $deadline = $row['NgayHetHan'];
@@ -187,11 +185,13 @@ $conn->close();
                                     if ($deadline < $today && !$row['TrangThai']) {
                                         $isOverdue = true;
                                         $priorityClass = 'priority-high';
-                                        $priorityText = 'Khẩn cấp';
+                                        $priorityText = '🚨 Quá hạn';
                                     }
                                 }
+                                
+                                $progress = $row['TrangThai'] ? 100 : 0;
                             ?>
-                                <tr>
+                                <tr data-status="<?= $row['TrangThai'] ? 'completed' : 'pending' ?>">
                                     <td>
                                         <form method="POST" action="complete_task.php" style="display: inline;">
                                             <input type="hidden" name="id" value="<?= $row['ID'] ?>">
@@ -203,37 +203,27 @@ $conn->close();
                                             <?= htmlspecialchars($row['TieuDe']) ?>
                                         </div>
                                         <?php if (!empty($row['MoTa'])): ?>
-                                            <small style="color: #6c757d;"><?= htmlspecialchars(substr($row['MoTa'], 0, 50)) ?>...</small>
+                                            <div class="task-description">
+                                                <?= htmlspecialchars(substr($row['MoTa'], 0, 80)) ?><?= strlen($row['MoTa']) > 80 ? '...' : '' ?>
+                                            </div>
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <form method="POST" action="update_status.php" style="display: inline;">
-                                            <input type="hidden" name="id" value="<?= $row['ID'] ?>">
-                                            <select name="status" class="status-select" onchange="this.form.submit()">
-                                                <option value="chua_bat_dau" <?= ($row['TrangThaiChiTiet'] ?? 'chua_bat_dau') == 'chua_bat_dau' ? 'selected' : '' ?>>📝 Chưa bắt đầu</option>
-                                                <option value="dang_thuc_hien" <?= ($row['TrangThaiChiTiet'] ?? '') == 'dang_thuc_hien' ? 'selected' : '' ?>>🔄 Đang thực hiện</option>
-                                                <option value="da_hoan_thanh" <?= ($row['TrangThaiChiTiet'] ?? '') == 'da_hoan_thanh' || $row['TrangThai'] ? 'selected' : '' ?>>✅ Đã hoàn thành</option>
-                                            </select>
-                                        </form>
+                                        <span class="status-badge <?= $row['TrangThai'] ? 'status-completed' : 'status-pending' ?>">
+                                            <?= $row['TrangThai'] ? '✅ Đã hoàn thành' : '📝 Chưa hoàn thành' ?>
+                                        </span>
                                     </td>
                                     <td>
                                         <span class="priority-badge <?= $priorityClass ?>">
-                                            <?php 
-                                                if ($isOverdue) {
-                                                    echo '🚨 Khẩn cấp';
-                                                } else {
-                                                    switch($row['DoUuTien']) {
-                                                        case 'cao': echo '🔴 Cao'; break;
-                                                        case 'thap': echo '🟢 Thấp'; break;
-                                                        default: echo '🟡 Trung bình';
-                                                    }
-                                                }
-                                            ?>
+                                            <?= $priorityText ?>
                                         </span>
                                     </td>
                                     <td>
                                         <?php if (!empty($row['NgayHetHan']) && $row['NgayHetHan'] != '0000-00-00'): ?>
                                             <?= date("d/m/Y", strtotime($row['NgayHetHan'])) ?>
+                                            <?php if ($isOverdue): ?>
+                                                <br><small style="color: #dc3545;">Quá hạn</small>
+                                            <?php endif; ?>
                                         <?php else: ?>
                                             <span style="color: #6c757d;">Không có</span>
                                         <?php endif; ?>
@@ -269,50 +259,77 @@ $conn->close();
     </div>
 
     <script>
-        // Filter functionality với logic thực tế
+        // Filter functionality
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                // Xóa class active khỏi tất cả nút
+                // Remove active class from all buttons
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Lấy loại filter
-                const filterType = this.textContent.trim();
+                // Get filter type
+                const filterType = this.getAttribute('data-filter');
                 const tableRows = document.querySelectorAll('.task-table tbody tr');
+                let visibleCount = 0;
                 
                 tableRows.forEach(row => {
-                    const statusBadge = row.querySelector('.status-badge');
-                    const statusText = statusBadge ? statusBadge.textContent.trim() : '';
-                    
+                    const status = row.getAttribute('data-status');
                     let showRow = true;
                     
                     switch(filterType) {
-                        case '📝 Chưa bắt đầu':
-                            showRow = statusText === 'Chưa bắt đầu';
+                        case 'pending':
+                            showRow = status === 'pending';
                             break;
-                        case '🔄 Đang thực hiện':
-                            showRow = statusText === 'Đang thực hiện'; // Cần thêm trạng thái này
+                        case 'completed':
+                            showRow = status === 'completed';
                             break;
-                        case '✅ Đã hoàn thành':
-                            showRow = statusText === 'Đã hoàn thành';
-                            break;
-                        case '📋 Tất cả':
+                        case 'all':
+                        default:
                             showRow = true;
                             break;
                     }
                     
                     row.style.display = showRow ? '' : 'none';
+                    if (showRow) visibleCount++;
                 });
                 
-                // Cập nhật counter
-                updateTaskCounter();
+                // Update button text with count
+                updateFilterCounts();
             });
         });
 
-        function updateTaskCounter() {
-            const visibleRows = document.querySelectorAll('.task-table tbody tr:not([style*="display: none"])');
-            console.log(`Hiển thị ${visibleRows.length} công việc`);
+        // Update filter counts
+        function updateFilterCounts() {
+            const allRows = document.querySelectorAll('.task-table tbody tr');
+            const pendingRows = document.querySelectorAll('.task-table tbody tr[data-status="pending"]');
+            const completedRows = document.querySelectorAll('.task-table tbody tr[data-status="completed"]');
+            
+            document.querySelector('[data-filter="all"]').textContent = `📋 Tất cả (${allRows.length})`;
+            document.querySelector('[data-filter="pending"]').textContent = `📝 Chưa hoàn thành (${pendingRows.length})`;
+            document.querySelector('[data-filter="completed"]').textContent = `✅ Đã hoàn thành (${completedRows.length})`;
         }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFilterCounts();
+        });
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const title = document.getElementById('task_title').value.trim();
+            const deadline = document.getElementById('task_deadline').value;
+            
+            if (!title) {
+                e.preventDefault();
+                alert('Vui lòng nhập tiêu đề công việc!');
+                return;
+            }
+            
+            if (deadline && deadline < new Date().toISOString().split('T')[0]) {
+                e.preventDefault();
+                alert('Hạn chót không thể là ngày trong quá khứ!');
+                return;
+            }
+        });
     </script>
 </body>
 </html>

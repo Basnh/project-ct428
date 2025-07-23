@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute();
     $stmt->close();
 
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
@@ -67,7 +67,7 @@ $conn->close();
             
             <br><br>
             <button class="save-btn" type="submit">Lưu</button>
-            <a class="cancel-btn" href="index.html">Huỷ</a>
+            <a class="cancel-btn" href="index.php">Huỷ</a>
         </form>
     </div>
 </body>
