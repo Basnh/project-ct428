@@ -13,3 +13,12 @@ CREATE TABLE CongViec (
     ID_NguoiDUng INT,
     FOREIGN KEY (ID_NguoiDung) REFERENCES NguoiDung(ID) ON DELETE CASCADE
 );
+
+-- Thêm các cột mới vào bảng NguoiDung
+ALTER TABLE NguoiDung 
+ADD COLUMN HoTen VARCHAR(100),
+ADD COLUMN Email VARCHAR(100),
+ADD COLUMN SoDienThoai VARCHAR(15);
+
+-- Tạo index cho email để tìm kiếm nhanh hơn
+CREATE INDEX idx_email ON NguoiDung(Email);
