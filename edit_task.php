@@ -49,6 +49,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Chỉnh sửa công việc</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/edit.css">
 </head>
 <body>
     <div class="container">
