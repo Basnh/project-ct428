@@ -84,10 +84,9 @@ project-ct428/
    - `NguoiDung` (Quản lý user)
    - `CongViec` (Quản lý task)
 
-<<<<<<< HEAD
-### ⚙️ Bước 3: Cấu hình kết nối database
-Mở file `db.php` và điều chỉnh thông tin kết nối nếu cần:
 
+### ⚙️ Bước 3: Cấu hình kết nối database
+Mở file `db.php` và điều chỉnh thông tin kết nối nếu cần
 
 ### 📂 Bước 4: Đặt source code vào thư mục server
 1. Copy toàn bộ folder `project-ct428` vào thư mục:
@@ -186,29 +185,4 @@ Warning: session_start(): Cannot send session cookie
 
 ---
 ### Link Github của dự án: https://github.com/Basnh/project-ct428
-=======
-Bước 4: Đặt source code vào thư mục server
-Ví dụ: C:\xampp\htdocs\todo-app
-
-Bước 5: Chạy ứng dụng
-Truy cập trình duyệt:
-👉 http://localhost/todo-app/register.php – Đăng ký tài khoản
-👉 http://localhost/todo-app/login.php – Đăng nhập
-👉 http://localhost/todo-app/index.php – Quản lý công việc
-
-👨‍💻 Thành viên thực hiện
-Tô Anh Khải: Quản lý người dùng (đăng ký, đăng nhập, session).
-
-Võ Phúc Khang: Xử lý công việc (CRUD).
-
-Đỗ Nhật Anh : Trạng thái & bảo mật, chỉnh sửa logic của project, trạng thái công việc, viết giao diện và README.md 	
-
-✅ Ghi chú
-Mật khẩu người dùng được mã hóa bằng password_hash().
-
-Ứng dụng không sử dụng framework để dễ học và triển khai cho sinh viên. (?)
-
-Giao diện đơn giản, dễ mở rộng bằng Bootstrap hoặc jQuery nếu cần.
->>>>>>> d00eb196b44d11380868a1a9aa12e1edf74f157c
-
 
