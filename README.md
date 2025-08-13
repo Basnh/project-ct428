@@ -1,4 +1,4 @@
-# 📋 Hệ thống Quản lý Công việc (To-Do List nâng cao)
+# 📋 Hệ thống Quản lý Công việc (To-Do List)
 
 Đây là một ứng dụng web giúp người dùng quản lý các công việc cá nhân của mình. Mỗi người dùng có thể đăng ký, đăng nhập và quản lý danh sách công việc riêng.
 
