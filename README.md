@@ -135,15 +135,15 @@ Mở trình duyệt và truy cập:
 
 | Thành viên  | Nhiệm vụ chính | Tiến độ hoàn thành 
 |------------|---------|----------------|
-| **Tô Anh Khải** | Quản lý người dùng (đăng ký, đăng nhập, session) | 100%
-| **Võ Phúc Khang** | Xử lý CRUD công việc, database design | 100%
-| **Đỗ Nhật Anh** (Nhóm trưởng) |  UI/UX design, bảo mật, tối ưu logic | 100%
+| **Tô Anh Khải** | Quản lý người dùng (đăng ký, đăng nhập, session), thuyết trình dự án| 100%
+| **Võ Phúc Khang** | Xử lý CRUD công việc, database design, Powerpoint dự án | 100%
+| **Đỗ Nhật Anh** (Nhóm trưởng) | UI/UX design, bảo mật, tối ưu logic, viết file README.md | 100%
 
 ---
 
 ## 🐛 Troubleshooting
 
-### ❌ Lỗi thường gặp
+### ❌ Lỗi thường gặp (FAQ)
 
 **1. Không kết nối được database:**
 ```
