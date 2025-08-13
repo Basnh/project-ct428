@@ -62,8 +62,13 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chỉnh sửa công việc</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="assets/edit.css">
     
+=======
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/edit.css">
+>>>>>>> d00eb196b44d11380868a1a9aa12e1edf74f157c
 </head>
 <body>
     <div class="container">
